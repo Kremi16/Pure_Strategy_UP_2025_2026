@@ -1,4 +1,9 @@
 ﻿#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include "Cards.h"
 
 /**
 *
@@ -17,5 +22,15 @@
 
 int main()
 {
+	std::srand(std::time(0));
+
+	std::cout << "Welcome to the card game Pure Strategy!" << "\n\n";
+
+	std::vector<int> player1Hand = createHand();
+	std::vector<int> player2Hand = createHand();
+	std::vector<int> rewardDeck = createHand();
+
+	shuffleDeck(rewardDeck);
+
 	return 0;
 }
