@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Cards.h"
+#include "GameLogic.h"
 
 /**
 *
@@ -28,9 +29,13 @@ int main()
 
 	std::vector<int> player1Hand = createHand();
 	std::vector<int> player2Hand = createHand();
-	std::vector<int> rewardDeck = createHand();
-
+	std::vector<int> rewardDeck = createHand();	
+	
 	shuffleDeck(rewardDeck);
+
+	printPlayerHand(player1Hand, 1);
+	printPlayerHand(player2Hand, 2);
+	printRewardCards(rewardDeck);
 
 	return 0;
 }

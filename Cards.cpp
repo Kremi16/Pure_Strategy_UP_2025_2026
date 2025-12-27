@@ -15,8 +15,6 @@
 *
 */
 
-const int MAX_CARDS_PER_HAND = 13;
-
 std::string convertCardsToString(int card)
 {
     if (card == 1) return "A";
@@ -52,6 +50,9 @@ int stringToNumber(const std::string& s)
 
 int parseCardInput(const std::string& card)
 {
+    const int MIN_NUM_CARD = 2;
+    const int MAX_NUM_CARD = 10;
+
     if (card == "A") return 1;
     if (card == "J") return 11;
     if (card == "Q") return 12;
@@ -60,7 +61,7 @@ int parseCardInput(const std::string& card)
     if (isNumberString(card))
     {
         int num = stringToNumber(card);
-        if (num >= 2 && num <= 10) return num;
+        if (num >= MIN_NUM_CARD && num <= MAX_NUM_CARD) return num;
     }
 
     return -1;
@@ -69,6 +70,7 @@ int parseCardInput(const std::string& card)
 std::vector<int> createHand()
 {
     std::vector<int> hand;
+    const int MAX_CARDS_PER_HAND = 13;
 
     for (int i = 1;i <= MAX_CARDS_PER_HAND;i++)
     {
