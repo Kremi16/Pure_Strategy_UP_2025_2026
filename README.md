@@ -8,9 +8,12 @@ Clean Strategy is a turn-based card game for two players. Each player chooses ca
 
 ## Project Status 
 - Initial skeleton of the project
-- Player hands created
+- Player hands created and printed
 - Reward deck created and shuffled
-- No game logic or user input implemented yet
+- Print reward card(s)
+- Read and validate player card choices
+- Little game logic implemented so far
+- No user profiles implemented yet
 
 *Status will be updated with each new commit.*
 
