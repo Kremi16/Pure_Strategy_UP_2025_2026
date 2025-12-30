@@ -16,7 +16,7 @@
 *
 */
 
-void printPlayerHand(const std::vector<int>& hand, int playerNumber)
+void printPlayerHand(const std::vector<int>& hand,const int playerNumber)
 {
     std::cout << "Player " << playerNumber << " hand: ";
 
@@ -33,7 +33,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
 
     if (rewardCards.size() == 1)
     {
-        std::cout << "Current reward card: " << convertCardsToString(rewardCards[0]) << std::endl;
+        std::cout << "Current reward card: " << convertCardsToString(rewardCards[0]) <<"\n\n";
     }
     else
     {
@@ -43,7 +43,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
         {
             std::cout << convertCardsToString(rewardCards[i]) << " ";
         }
-        std::cout << std::endl;
+        std::cout <<"\n\n";
     }
 }
 
@@ -78,26 +78,26 @@ int chooseCard(std::vector<int>& hand, const int playerNumber)
     }
 }
 
-void printRoundResult(int card1, int card2, const std::vector<int>& currentRewardCards, int winner)
+void printRoundResult(const int card1, const int card2,int rewardCount, int winner)
 {
     const int PLAYER_ONE = 1;
     const int PLAYER_TWO = 2;
+    const int SINGLE_CARD = 1;
 
-    int rewardCount = currentRewardCards.size();
     std::cout << "Player 1 played: " << convertCardsToString(card1) << "\n";
     std::cout << "Player 2 played: " << convertCardsToString(card2) << "\n";
 
     if (winner == PLAYER_ONE)
     {
-        std::cout << "Player 1 wins the reward " << (rewardCount == 1 ? "card" : "cards") << "!\n";
+        std::cout << "Player 1 wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
     else if (winner == PLAYER_TWO)
     {
-        std::cout << "Player 2 wins the reward " << (rewardCount == 1 ? "card" : "cards") << "!\n";
+        std::cout << "Player 2 wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
     else
     {
-        std::cout << "Tie! Reward " << (rewardCount == 1 ? "card" : "cards") << " remain.\n";
+        std::cout << "Tie! Reward "<< (rewardCount == SINGLE_CARD ? "card": "cards") << " remain.\n";
     }
     std::cout << std::endl;
 }
@@ -108,14 +108,25 @@ void setRewardCards(std::vector<int>& src, std::vector<int>& dest)
     {
         dest.push_back(src[i]);
     }
+    src.clear();
 }
 
-int resolveRound(int card1, int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won,
-    std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished)
+void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewardCards)
+{
+    if (rewardDeck.empty()) return;
+
+    currentRewardCards.push_back(rewardDeck.back());
+    rewardDeck.pop_back();
+}
+
+int resolveRound(const int card1, const int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won,
+    std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished,int& rewardCount)
 {
     const int PLAYER_ONE_WIN = 1;
     const int PLAYER_TWO_WIN = 2;
     const int TIE = 0;
+
+    rewardCount = currentRewardCards.size();
 
     if (card1 > card2)
     {
@@ -131,15 +142,13 @@ int resolveRound(int card1, int card2, std::vector<int>& currentRewardCards,std:
     }
     else
     {
-        if (!rewardDeck.empty())
-        {
-            currentRewardCards.push_back(rewardDeck.back());
-            rewardDeck.pop_back();
-        }
-        else
+        takeRewardCard(rewardDeck, currentRewardCards);
+        
+        if (rewardDeck.empty())
         {
             roundFinished = true;
         }
+
         return TIE;
     }
 }
@@ -159,6 +168,57 @@ void playSingleChoice(std::vector<int>& player1Hand,std::vector<int>& player2Han
     printPlayerHand(player2Hand, PLAYER_TWO);
     int card2 = chooseCard(player2Hand, PLAYER_TWO);
 
-    int winner = resolveRound(card1, card2, currentRewardCards, player1Won, player2Won, rewardDeck, roundFinished);
-    printRoundResult(card1, card2, currentRewardCards, winner);
+    int rewardCount = 0;
+    int winner = resolveRound(card1, card2, currentRewardCards, player1Won, player2Won, rewardDeck, roundFinished,rewardCount);
+    printRoundResult(card1, card2, rewardCount, winner);
+}
+
+void playRound(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
+    std::vector<int>& rewardDeck,std::vector<int>& player1Won,std::vector<int>& player2Won)
+{
+    if (rewardDeck.empty() || player1Hand.empty() || player2Hand.empty()) return;
+
+    std::vector<int> currentRewardCards;
+    takeRewardCard(rewardDeck, currentRewardCards);
+
+    bool roundFinished = false;
+
+    while (!roundFinished)
+    {
+        playSingleChoice(player1Hand, player2Hand, currentRewardCards,player1Won,
+            player2Won, rewardDeck, roundFinished);
+    }
+}
+
+int calculateSum(const std::vector<int>& cards)
+{
+    int sum = 0;
+    for (size_t i = 0;i < cards.size(); i++)
+    {
+        sum += cards[i];
+    }
+    return sum;
+}
+
+void score(const std::vector<int>& player1Won, const std::vector<int>& player2Won)
+{
+    int sum1 = calculateSum(player1Won);
+    int sum2 = calculateSum(player2Won);
+
+    std::cout << "\nGame over!\n";
+    std::cout << "Player 1 total points: " << sum1 << std::endl;
+    std::cout << "Player 2 total points: " << sum2 << std::endl;
+
+    if (sum1 > sum2)
+    {
+        std::cout << "Player 1 wins the game!" << std::endl;
+    }
+    else if (sum2 > sum1)
+    {
+        std::cout << "Player 2 wins the game!" << std::endl;
+    }
+    else
+    {
+        std::cout << "The game is a tie!" << std::endl;
+    }
 }

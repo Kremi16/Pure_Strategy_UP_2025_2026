@@ -18,18 +18,27 @@
 *
 */
 
-void printPlayerHand(const std::vector<int>& hand, int playerNumber);
+void printPlayerHand(const std::vector<int>& hand, const int playerNumber);
 
 void printRewardCards(const std::vector<int>& rewardCards);
 
 int chooseCard(std::vector<int>& hand, const int playerNumber);
 
-int resolveRound(int card1, int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won, 
-    std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished);
+void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewardCards);
 
-void printRoundResult(int card1, int card2, const std::vector<int>& currentRewardCards, int winner);
+int resolveRound(const int card1, const int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won, 
+    std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished, int& rewardCount);
+
+void printRoundResult(const int card1, const int card2, int rewardCount, int winner);
 
 void setRewardCards(std::vector<int>& src, std::vector<int>& dest);
 
 void playSingleChoice(std::vector<int>& player1Hand,std::vector<int>& player2Hand,std::vector<int>& currentRewardCards,
     std::vector<int>& player1Won,std::vector<int>& player2Won,std::vector<int>& rewardDeck,bool& roundFinished);
+
+void playRound(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
+    std::vector<int>& rewardDeck,std::vector<int>& player1Won,std::vector<int>& player2Won);
+
+int calculateSum(const std::vector<int>& cards);
+
+void score(const std::vector<int>& player1Won, const std::vector<int>& player2Won);

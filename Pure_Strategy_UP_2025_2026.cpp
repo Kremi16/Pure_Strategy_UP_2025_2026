@@ -31,25 +31,15 @@ int main()
 	std::vector<int> player2Hand = createHand();
 	std::vector<int> rewardDeck = createHand();	
 	std::vector<int> player1Won, player2Won;
-    std::vector<int> currentRewardCards;
-
-    bool roundFinished = false;
 
     shuffleDeck(rewardDeck);
 
-    currentRewardCards.push_back(rewardDeck.back());
-    rewardDeck.pop_back();
+    while (!player1Hand.empty() && !player2Hand.empty() && !rewardDeck.empty()) 
+    {
+        playRound(player1Hand, player2Hand, rewardDeck, player1Won, player2Won);
+    }
 
-    printPlayerHand(player1Hand, 1);
-    printPlayerHand(player2Hand, 2);
-    printRewardCards(currentRewardCards);
-
-    int card1 = chooseCard(player1Hand, 1);
-    int card2 = chooseCard(player2Hand, 2);
-
-    int winner = resolveRound(card1, card2, currentRewardCards, player1Won, player2Won, rewardDeck, roundFinished);
-
-    printRoundResult(card1, card2, currentRewardCards, winner);
+    score(player1Won, player2Won);
 
 	return 0;
 }
