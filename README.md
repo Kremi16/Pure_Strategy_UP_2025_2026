@@ -4,7 +4,7 @@ Console implementation of **"Pure Strategy"** card game for two players.
 Project for *Introduction to Programming* course, Faculty of Mathematics and Informatics, Sofia University (Winter semester 2025/2026). 
 
 ## Project Overview 
-Clean Strategy is a turn-based card game for two players. Each player chooses cards from their deck to compete for reward cards. Players score points based on the cards they collect, and the player with more points at the end wins. 
+**Pure Strategy** is a turn-based card game for two players. Each player chooses cards from their deck to compete for reward cards. Players score points based on the cards they collect, and the player with more points at the end wins. 
 
 ## Project Status 
 - Initial skeleton of the project
