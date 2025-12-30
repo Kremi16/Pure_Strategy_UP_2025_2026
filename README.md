@@ -12,11 +12,11 @@ Clean Strategy is a turn-based card game for two players. Each player chooses ca
 - Reward deck created and shuffled
 - Print reward card(s)
 - Read and validate player card choices
-- Handling ties and updating reward cards
-- Resolving the winner
+- Handle ties and update reward cards
+- Resolve the winner of each round
 - Reward cards transfered to the winner
-- A single game round played
-- Round results printed
+- Implemented a full game round
+- Calculate total points, display final result and the winner
 - Some game logic implemented so far
 - No user profiles implemented yet
 
