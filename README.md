@@ -17,8 +17,11 @@ Project for *Introduction to Programming* course, Faculty of Mathematics and Inf
 - Reward cards transfered to the winner
 - Implemented a full game round
 - Calculate total points, display final result and the winner
-- Some game logic implemented so far
-- No user profiles implemented yet
+- Create a new user profile
+- Check if the user exists and if the login is succesfull
+  
+- Game logic implemented 
+- Some user profiles functions implemented so far
 
 *Status will be updated with each new commit.*
 
