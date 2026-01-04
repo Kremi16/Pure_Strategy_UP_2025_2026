@@ -19,6 +19,8 @@ Project for *Introduction to Programming* course, Faculty of Mathematics and Inf
 - Calculate total points, display final result and the winner
 - Create a new user profile
 - Check if the user exists and if the login is succesfull
+- Load and save user profile
+- Update opponent and overall game statistics
   
 - Game logic implemented 
 - Some user profiles functions implemented so far
