@@ -24,3 +24,15 @@ bool isUserExists(const std::string& username);
 bool isUserCreated(const std::string& username, const std::string& password);
 
 bool isLoginSuccessful(const std::string& username, const std::string& password);
+
+void loadProfile(const std::string& username, std::string& password, int& totalGames,
+	int& totalWins, std::vector<std::string>& lines);
+
+void saveProfile(const std::string& username, const std::string& password, int totalGames,
+	int totalWins, const std::vector<std::string>& lines);
+
+void updateStatistics(const std::string& username, bool won);
+
+void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins);
+
+void updateOpponentStatistics(const std::string& username, const std::string& opponent, bool won);

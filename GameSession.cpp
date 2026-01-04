@@ -33,3 +33,28 @@ void playGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand,
 
 	score(player1Won, player2Won);
 }
+
+void updateAllStatistics(const std::string& player1Name, const std::string& player2Name,
+    const std::vector<int>& player1Won, const std::vector<int>& player2Won)
+{
+    bool player1Victory = false;
+    bool player2Victory = false;
+
+    int sum1 = calculateSum(player1Won);
+    int sum2 = calculateSum(player2Won);
+
+    if (sum1 > sum2)
+    {
+        player1Victory = true;
+    }
+    else if (sum2 > sum1)
+    {
+        player2Victory = true;
+    }
+
+    updateStatistics(player1Name, player1Victory);
+    updateStatistics(player2Name, player2Victory);
+
+    updateOpponentStatistics(player1Name, player2Name, player1Victory);
+    updateOpponentStatistics(player2Name, player1Name, player2Victory);
+}

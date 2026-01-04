@@ -42,3 +42,123 @@ bool isLoginSuccessful(const std::string& username, const std::string& password)
 
 	return (enteredPassword == password);
 }
+
+void loadProfile(const std::string& username, std::string& password, int& totalGames,
+	int& totalWins, std::vector<std::string>& lines)
+{
+	std::ifstream file("profiles/" + username + ".txt");
+	if (!file.is_open()) return;
+
+	std::getline(file, password);
+	file >> totalGames >> totalWins;
+	file.ignore();
+
+	lines.clear();
+	std::string line;
+
+	while (std::getline(file, line))
+	{
+		lines.push_back(line);
+	}
+}
+
+void saveProfile(const std::string& username, const std::string& password, int totalGames,
+	int totalWins, const std::vector<std::string>& lines)
+{
+	std::ofstream out("profiles/" + username + ".txt");
+
+	out << password << "\n";
+	out << totalGames << " " << totalWins << "\n";
+
+	for (size_t i = 0; i < lines.size(); i++)
+	{
+		out << lines[i] << "\n";
+	}
+}
+
+void updateStatistics(const std::string& username, bool won)
+{
+	std::string password;
+	int totalGames = 0, totalWins = 0;
+	std::vector<std::string> lines;
+	
+	loadProfile(username, password, totalGames, totalWins, lines);
+
+	totalGames++;
+	if (won) totalWins++;
+
+	saveProfile(username, password, totalGames, totalWins, lines);
+}
+
+void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins)
+{
+	const int FIELD_OPPONENT = 0;
+	const int FIELD_GAMES = 1;
+	const int FIELD_WINS = 2;
+
+	opponent.clear();
+	games = 0;
+	wins = 0;
+    int field = FIELD_OPPONENT;
+	int number = 0;
+
+	for (size_t i = 0; i < line.length(); i++) 
+	{
+		if (line[i] == ' ') {
+			if (field == FIELD_OPPONENT) {
+				field = FIELD_GAMES;
+			}
+			else if (field == FIELD_GAMES) {
+				games = number;
+				number = 0;
+				field = FIELD_WINS;
+			}
+		}
+		else {
+			if (field == FIELD_OPPONENT) {
+				opponent += line[i];
+			}
+			else {
+				number = number * 10 + (line[i] - '0');
+			}
+		}
+	}
+
+	if (field == FIELD_WINS) wins = number;
+}
+
+void updateOpponentStatistics(const std::string& username, const std::string& opponent, bool won)
+{
+	std::string password;
+	int totalGames = 0, totalWins = 0;
+	std::vector<std::string> lines;
+	std::string line;
+
+	loadProfile(username, password, totalGames, totalWins, lines);
+
+	bool opponentFound = false;
+
+	for (size_t i = 0; i < lines.size(); i++)
+	{
+		std::string opponentName;
+		int gamesPlayed, gamesWon;
+
+		parseOpponentLine(lines[i], opponentName, gamesPlayed, gamesWon);
+
+		if (opponentName == opponent)
+		{
+			gamesPlayed++;
+			if (won) gamesWon++;
+			lines[i] = opponentName + " " + std::to_string(gamesPlayed) + " " + std::to_string(gamesWon);
+			opponentFound = true;
+			break;
+		}
+	}
+
+	if (!opponentFound)
+	{
+		lines.push_back(opponent + " 1 " + (won ? "1" : "0"));
+	}
+
+	saveProfile(username, password, totalGames, totalWins, lines);
+}

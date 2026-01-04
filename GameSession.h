@@ -22,3 +22,6 @@ void initializeGame(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
 
 void playGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand,
 	std::vector<int>& rewardDeck, std::vector<int>& player1Won, std::vector<int>& player2Won);
+
+void updateAllStatistics(const std::string& player1Name, const std::string& player2Name,
+	const std::vector<int>& player1Won, const std::vector<int>& player2Won);
