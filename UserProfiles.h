@@ -36,3 +36,7 @@ void updateStatistics(const std::string& username, bool won);
 void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins);
 
 void updateOpponentStatistics(const std::string& username, const std::string& opponent, bool won);
+
+void showUserStatistics(const std::string& username);
+
+void displayEndGameStatistics(const std::string& player1, const std::string& player2);

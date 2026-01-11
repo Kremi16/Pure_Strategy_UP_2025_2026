@@ -162,3 +162,41 @@ void updateOpponentStatistics(const std::string& username, const std::string& op
 
 	saveProfile(username, password, totalGames, totalWins, lines);
 }
+
+void showUserStatistics(const std::string& username)
+{
+	std::string password;
+	int totalGames = 0, totalWins = 0;
+	std::vector<std::string> opponents;
+
+	loadProfile(username, password, totalGames, totalWins, opponents);
+
+	std::cout << "Total games played: " << totalGames << "\n";
+	std::cout << "Total games won: " << totalWins << " ("
+		<< (totalGames ? (totalWins * 100.0 / totalGames) : 0) << "%)\n";
+
+	std::cout << "Games against other players:\n";
+
+	std::string opponent;
+	int gamesPlayed, gamesWon;
+
+	for (size_t i = 0; i < opponents.size(); i++)
+	{
+		parseOpponentLine(opponents[i], opponent, gamesPlayed, gamesWon);
+
+		std::cout << opponent << ": " << gamesPlayed << " games played ("
+			<< gamesWon << "/" << (gamesPlayed ? (gamesWon * 100.0 / gamesPlayed) : 0) << "% wins)\n";
+	}
+}
+
+	void displayEndGameStatistics(const std::string & player1, const std::string & player2)
+	{
+		std::cout << "\n--- Player Statistics ---\n";
+		std::cout << player1 << ":\n";
+		showUserStatistics(player1);
+
+		std::cout << "\n" << player2 << ":\n";
+		showUserStatistics(player2);
+
+		std::cout << "\nThank you for playing Pure Strategy!\n";
+	}
