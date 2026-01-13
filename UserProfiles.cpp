@@ -1,5 +1,3 @@
-#include "UserProfiles.h"
-
 /**
 *
 * Solution to course project # 01
@@ -14,6 +12,8 @@
 * File with implementation of user profile management functions.
 *
 */
+
+#include "UserProfiles.h"
 
 bool isUserExists(const std::string& username)
 {
@@ -149,7 +149,7 @@ void updateOpponentStatistics(const std::string& username, const std::string& op
 		{
 			gamesPlayed++;
 			if (won) gamesWon++;
-			lines[i] = opponentName + " " + std::to_string(gamesPlayed) + " " + std::to_string(gamesWon);
+			lines[i] = opponentName + " " + numberToString(gamesPlayed) + " " + numberToString(gamesWon);
 			opponentFound = true;
 			break;
 		}

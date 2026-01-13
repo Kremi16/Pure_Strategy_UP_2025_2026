@@ -1,6 +1,3 @@
-#include "Menu.h"
-#include "UserProfiles.h"
-
 /**
 *
 * Solution to course project # 01
@@ -15,6 +12,9 @@
 * File with implementation of the main menu logic functions.
 *
 */
+
+#include "Menu.h"
+#include "UserProfiles.h"
 
 int showMenu()
 {
@@ -76,17 +76,21 @@ std::string login()
 
 std::string showMainMenu()
 {
+    const int EXIT = 3;
+    const int REGISTRATION = 1;
+    const int LOGIN = 2;
+
     while (true)
     {
         int choice = showMenu();
 
-        if (choice == 3) return "";
+        if (choice == EXIT) return "";
 
-        if (choice == 1)
+        if (choice == REGISTRATION)
         {
             registerUser();
         }
-        else if (choice == 2)
+        else if (choice == LOGIN)
         {
             std::string user = login();
             if (!user.empty()) return user;

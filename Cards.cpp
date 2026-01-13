@@ -1,5 +1,3 @@
-#include "Cards.h"
-
 /**
 *
 * Solution to course project # 01
@@ -15,6 +13,21 @@
 *
 */
 
+#include "Cards.h"
+
+std::string numberToString(int number)
+{
+    std::string result = "";
+
+    while (number > 0)
+    {
+        char digit = char('0' + (number % 10));
+        result = digit + result;
+        number /= 10;
+    }
+    return result;
+}
+
 std::string convertCardsToString(int card)
 {
     if (card == 1) return "A";
@@ -22,7 +35,7 @@ std::string convertCardsToString(int card)
     if (card == 12) return "Q";
     if (card == 13) return "K";
 
-    return std::to_string(card);
+    return numberToString(card);
 }
 
 bool isNumberString(const std::string& s)
@@ -52,6 +65,7 @@ int parseCardInput(const std::string& card)
 {
     const int MIN_NUM_CARD = 2;
     const int MAX_NUM_CARD = 10;
+    const int INVALID_CARD = -1;
 
     if (card == "A") return 1;
     if (card == "J") return 11;
@@ -64,7 +78,7 @@ int parseCardInput(const std::string& card)
         if (num >= MIN_NUM_CARD && num <= MAX_NUM_CARD) return num;
     }
 
-    return -1;
+    return INVALID_CARD;
 }
 
 std::vector<int> createHand()

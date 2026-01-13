@@ -1,6 +1,3 @@
-#pragma once
-#include <string>
-
 /**
 *
 * Solution to course project # 01
@@ -15,6 +12,9 @@
 * Header file with implementation of the main menu logic functions.
 *
 */
+
+#pragma once
+#include <string>
 
 int showMenu();
 

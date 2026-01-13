@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <cstdlib>
-
 /**
 *
 * Solution to course project # 01
@@ -17,6 +15,10 @@
 * Header file with card-related functions.
 *
 */
+
+#include <cstdlib>
+
+std::string numberToString(int number);
 
 std::string convertCardsToString(int card);
 

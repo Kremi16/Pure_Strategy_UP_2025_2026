@@ -1,9 +1,3 @@
-#pragma once
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
 /**
 *
 * Solution to course project # 01
@@ -18,6 +12,13 @@
 * Header file with user profile management functions.
 *
 */
+
+#pragma once
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include "Cards.h"
 
 bool isUserExists(const std::string& username);
 

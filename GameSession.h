@@ -1,8 +1,3 @@
-#pragma once
-#include "Cards.h"
-#include "GameLogic.h"
-#include "UserProfiles.h"
-
 /**
 *
 * Solution to course project # 01
@@ -18,9 +13,15 @@
 *
 */
 
+#pragma once
+#include "Cards.h"
+#include "GameLogic.h"
+#include "UserProfiles.h"
+
 void initializeGame(std::vector<int>& player1Hand,std::vector<int>& player2Hand, std::vector<int>& rewardDeck);
 
 void playGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand,
+	const std::string& player1Name, const std::string& player2Name,
 	std::vector<int>& rewardDeck, std::vector<int>& player1Won, std::vector<int>& player2Won);
 
 void updateAllStatistics(const std::string& player1Name, const std::string& player2Name,

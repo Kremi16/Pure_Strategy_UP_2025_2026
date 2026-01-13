@@ -1,10 +1,4 @@
-﻿#include <ctime>
-#include "Cards.h"
-#include "GameLogic.h"
-#include "GameSession.h"
-#include "Menu.h"
-
-/**
+﻿/**
 *
 * Solution to course project # 01
 * Introduction to programming course
@@ -18,6 +12,12 @@
 * Main program file for the console implementation of the card game "Pure strategy".
 *
 */
+
+#include <ctime>
+#include "Cards.h"
+#include "GameLogic.h"
+#include "GameSession.h"
+#include "Menu.h"
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
 
     initializeGame(player1Hand, player2Hand, rewardDeck);
 
-    playGame(player1Hand, player2Hand, rewardDeck, player1Won, player2Won);
+    playGame(player1Hand, player2Hand, player1,player2, rewardDeck, player1Won, player2Won);
 
     updateAllStatistics(player1, player2, player1Won, player2Won);
 

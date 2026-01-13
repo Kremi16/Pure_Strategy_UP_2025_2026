@@ -1,6 +1,3 @@
-#include "GameLogic.h"
-#include "Cards.h"
-
 /**
 *
 * Solution to course project # 01
@@ -16,9 +13,12 @@
 *
 */
 
-void printPlayerHand(const std::vector<int>& hand,const int playerNumber)
+#include "GameLogic.h"
+#include "Cards.h"
+
+void printPlayerHand(const std::vector<int>& hand,const std::string& playerName)
 {
-    std::cout << "Player " << playerNumber << " hand: ";
+    std::cout << playerName << "'s hand: ";
 
     for (size_t i = 0;i < hand.size();i++)
     {
@@ -47,7 +47,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
     }
 }
 
-int chooseCard(std::vector<int>& hand, const int playerNumber)
+int chooseCard(std::vector<int>& hand, const std::string& playerName)
 {
     std::string choiceString;
     int choice;
@@ -55,7 +55,7 @@ int chooseCard(std::vector<int>& hand, const int playerNumber)
 
     while (true)
     {
-        std::cout << "Player " << playerNumber << " choose a card from your hand: ";
+        std::cout << playerName<< ",choose a card from your hand: ";
         std::cin >> choiceString;
         std::cout << std::endl;
 
@@ -78,22 +78,23 @@ int chooseCard(std::vector<int>& hand, const int playerNumber)
     }
 }
 
-void printRoundResult(const int card1, const int card2,int rewardCount, int winner)
+void printRoundResult(const std::string& player1Name,const std::string player2Name,const int card1, 
+    const int card2,int rewardCount, int winner)
 {
     const int PLAYER_ONE = 1;
     const int PLAYER_TWO = 2;
     const int SINGLE_CARD = 1;
 
-    std::cout << "Player 1 played: " << convertCardsToString(card1) << "\n";
-    std::cout << "Player 2 played: " << convertCardsToString(card2) << "\n";
+    std::cout << player1Name << " played: " << convertCardsToString(card1) << "\n";
+    std::cout << player2Name << " played: " << convertCardsToString(card2) << "\n";
 
     if (winner == PLAYER_ONE)
     {
-        std::cout << "Player 1 wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
+        std::cout << player1Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
     else if (winner == PLAYER_TWO)
     {
-        std::cout << "Player 2 wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
+        std::cout << player2Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
     else
     {
@@ -154,26 +155,25 @@ int resolveRound(const int card1, const int card2, std::vector<int>& currentRewa
 }
 
 void playSingleChoice(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
+    const std::string& player1Name,const std::string& player2Name,
     std::vector<int>& currentRewardCards,std::vector<int>& player1Won,
     std::vector<int>& player2Won,std::vector<int>& rewardDeck,bool& roundFinished)
 {
-    const int PLAYER_ONE = 1;
-    const int PLAYER_TWO = 2;
-
     printRewardCards(currentRewardCards);
 
-    printPlayerHand(player1Hand, PLAYER_ONE);
-    int card1 = chooseCard(player1Hand, PLAYER_ONE);
+    printPlayerHand(player1Hand, player1Name);
+    int card1 = chooseCard(player1Hand, player1Name);
 
-    printPlayerHand(player2Hand, PLAYER_TWO);
-    int card2 = chooseCard(player2Hand, PLAYER_TWO);
+    printPlayerHand(player2Hand, player2Name);
+    int card2 = chooseCard(player2Hand, player2Name);
 
     int rewardCount = 0;
     int winner = resolveRound(card1, card2, currentRewardCards, player1Won, player2Won, rewardDeck, roundFinished,rewardCount);
-    printRoundResult(card1, card2, rewardCount, winner);
+    printRoundResult(player1Name,player2Name,card1, card2, rewardCount, winner);
 }
 
 void playRound(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
+    const std::string& player1Name, const std::string& player2Name,
     std::vector<int>& rewardDeck,std::vector<int>& player1Won,std::vector<int>& player2Won)
 {
     if (rewardDeck.empty() || player1Hand.empty() || player2Hand.empty()) return;
@@ -185,8 +185,8 @@ void playRound(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
 
     while (!roundFinished)
     {
-        playSingleChoice(player1Hand, player2Hand, currentRewardCards,player1Won,
-            player2Won, rewardDeck, roundFinished);
+        playSingleChoice(player1Hand, player2Hand, player1Name, player2Name, currentRewardCards,
+            player1Won,player2Won, rewardDeck, roundFinished);
     }
 }
 
@@ -200,22 +200,23 @@ int calculateSum(const std::vector<int>& cards)
     return sum;
 }
 
-void score(const std::vector<int>& player1Won, const std::vector<int>& player2Won)
+void score(const std::string& player1Name,const std::string& player2Name, 
+    const std::vector<int>& player1Won, const std::vector<int>& player2Won)
 {
     int sum1 = calculateSum(player1Won);
     int sum2 = calculateSum(player2Won);
 
     std::cout << "\nGame over!\n";
-    std::cout << "Player 1 total points: " << sum1 << std::endl;
-    std::cout << "Player 2 total points: " << sum2 << std::endl;
+    std::cout << player1Name << "'s total points: " << sum1 << std::endl;
+    std::cout << player2Name << "'s total points: " << sum2 << std::endl;
 
     if (sum1 > sum2)
     {
-        std::cout << "Player 1 wins the game!" << std::endl;
+        std::cout << player1Name << " wins the game!" << std::endl;
     }
     else if (sum2 > sum1)
     {
-        std::cout << "Player 2 wins the game!" << std::endl;
+        std::cout << player2Name << " wins the game!" << std::endl;
     }
     else
     {

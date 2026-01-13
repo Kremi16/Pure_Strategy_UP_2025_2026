@@ -1,5 +1,3 @@
-#include "GameSession.h"
-
 /**
 *
 * Solution to course project # 01
@@ -15,6 +13,8 @@
 *
 */
 
+#include "GameSession.h"
+
 void initializeGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand, std::vector<int>& rewardDeck)
 {
 	player1Hand = createHand();
@@ -24,14 +24,15 @@ void initializeGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand
 }
 
 void playGame(std::vector<int>& player1Hand, std::vector<int>& player2Hand,
+    const std::string& player1Name, const std::string& player2Name,
 	std::vector<int>& rewardDeck, std::vector<int>& player1Won, std::vector<int>& player2Won)
 {
 	while (!player1Hand.empty() && !player2Hand.empty() && !rewardDeck.empty())
 	{
-		playRound(player1Hand, player2Hand, rewardDeck, player1Won, player2Won);
+		playRound(player1Hand, player2Hand,player1Name,player2Name, rewardDeck, player1Won, player2Won);
 	}
 
-	score(player1Won, player2Won);
+	score(player1Name, player2Name, player1Won, player2Won);
 }
 
 void updateAllStatistics(const std::string& player1Name, const std::string& player2Name,
