@@ -21,10 +21,11 @@ Project for *Introduction to Programming* course, Faculty of Mathematics and Inf
 - Check if the user exists and if the login is succesfull
 - Load and save user profile
 - Update opponent and overall game statistics
+- Display individual user statistics and end-game statisticts for both players
+- Show main menu with registration, login and menu flow
   
 - Game logic implemented 
-- Some user profiles functions implemented so far
-
+- User profiles functions implemented
 *Status will be updated with each new commit.*
 
 ## Features (to be implemented) 
