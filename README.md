@@ -11,6 +11,7 @@ Project for *Introduction to Programming* course, Faculty of Mathematics and Inf
 - Player hands created and printed
 - Reward deck created and shuffled
 - Print reward card(s)
+- Print current won cards of each player
 - Read and validate player card choices
 - Handle ties and update reward cards
 - Resolve the winner of each round
