@@ -17,6 +17,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Cards.h"
+
+constexpr int PLAYER_ONE = 1;
+constexpr int PLAYER_TWO = 2;
+constexpr int TIE = 0;
+constexpr int SINGLE_CARD = 1;
 
 void printPlayerHand(const std::vector<int>& hand, const std::string& playerName);
 

@@ -15,6 +15,11 @@
 
 #pragma once
 #include <string>
+#include "UserProfiles.h"
+
+const std::string REGISTRATION = "1";
+const std::string LOGIN = "2";
+const std::string EXIT = "3";
 
 std::string showMenu();
 

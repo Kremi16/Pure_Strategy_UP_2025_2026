@@ -18,6 +18,11 @@
 
 #include <cstdlib>
 
+constexpr int MIN_NUM_CARD = 2;
+constexpr int MAX_NUM_CARD = 10;
+constexpr int INVALID_CARD = -1;
+constexpr int MAX_CARDS_PER_HAND = 13;
+
 std::string numberToString(int number);
 
 std::string convertCardToString(int card);

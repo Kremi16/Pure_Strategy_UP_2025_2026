@@ -14,7 +14,6 @@
 */
 
 #include "GameLogic.h"
-#include "Cards.h"
 
 void printPlayerHand(const std::vector<int>& hand,const std::string& playerName)
 {
@@ -31,7 +30,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
 {
     if (rewardCards.empty()) return;
 
-    if (rewardCards.size() == 1)
+    if (rewardCards.size() == SINGLE_CARD)
     {
         std::cout << "Current reward card: " << convertCardToString(rewardCards[0]) <<"\n\n";
     }
@@ -49,8 +48,6 @@ void printRewardCards(const std::vector<int>& rewardCards)
 
 int chooseCard(std::vector<int>& hand, const std::string& playerName)
 {
-    constexpr int INVALID_CARD = -1;
-
     std::string choiceString;
     int choice;
 
@@ -82,18 +79,14 @@ int chooseCard(std::vector<int>& hand, const std::string& playerName)
 void printRoundResult(const std::string& player1Name,const std::string& player2Name,const int card1, 
     const int card2,int rewardCount, int winner)
 {
-    constexpr int PLAYER_ONE_WIN = 1;
-    constexpr int PLAYER_TWO_WIN = 2;
-    constexpr int SINGLE_CARD = 1;
-
     std::cout << player1Name << " played: " << convertCardToString(card1) << "\n";
     std::cout << player2Name << " played: " << convertCardToString(card2) << "\n";
 
-    if (winner == PLAYER_ONE_WIN)
+    if (winner == PLAYER_ONE)
     {
         std::cout << player1Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
-    else if (winner == PLAYER_TWO_WIN)
+    else if (winner == PLAYER_TWO)
     {
         std::cout << player2Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
@@ -124,10 +117,6 @@ void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewar
 int resolveRound(const int card1, const int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won,
     std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished,int& rewardCount)
 {
-    constexpr int TIE = 0;
-    constexpr int PLAYER_ONE = 1;
-    constexpr int PLAYER_TWO = 2;
-
     rewardCount = currentRewardCards.size();
 
     if (card1 > card2)
@@ -150,7 +139,6 @@ int resolveRound(const int card1, const int card2, std::vector<int>& currentRewa
         {
             roundFinished = true;
         }
-
         return TIE;
     }
 }

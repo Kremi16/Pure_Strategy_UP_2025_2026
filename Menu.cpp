@@ -14,7 +14,6 @@
 */
 
 #include "Menu.h"
-#include "UserProfiles.h"
 
 std::string showMenu()
 {
@@ -76,10 +75,6 @@ std::string login()
 
 std::string showMainMenu()
 {
-    const std::string EXIT = "3";
-    const std::string REGISTRATION = "1";
-    const std::string LOGIN = "2";
-
     while (true)
     {
         std::string choice = showMenu();

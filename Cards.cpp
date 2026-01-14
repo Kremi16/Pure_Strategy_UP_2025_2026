@@ -63,10 +63,6 @@ int stringToNumber(const std::string& s)
 
 int parseCardInput(const std::string& card)
 {
-    constexpr int MIN_NUM_CARD = 2;
-    constexpr int MAX_NUM_CARD = 10;
-    constexpr int INVALID_CARD = -1;
-
     if (card == "A") return 1;
     if (card == "J") return 11;
     if (card == "Q") return 12;
@@ -84,7 +80,6 @@ int parseCardInput(const std::string& card)
 std::vector<int> createHand()
 {
     std::vector<int> hand;
-    const int MAX_CARDS_PER_HAND = 13;
 
     for (int i = 1;i <= MAX_CARDS_PER_HAND;i++)
     {

@@ -20,6 +20,10 @@
 #include <vector>
 #include "Cards.h"
 
+constexpr int FIELD_OPPONENT = 0;
+constexpr int FIELD_GAMES = 1;
+constexpr int FIELD_WINS = 2;
+
 bool isUserExists(const std::string& username);
 
 bool isUserCreated(const std::string& username, const std::string& password);
