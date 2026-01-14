@@ -17,7 +17,7 @@
 
 bool isUserExists(const std::string& username)
 {
-	std::ifstream file("profiles/" + username + ".txt");
+	std::ifstream file(username + ".txt");
 	return file.good();
 }
 
@@ -25,7 +25,7 @@ bool isUserCreated(const std::string& username, const std::string& password)
 {
 	if (isUserExists(username)) return false;
 
-	std::ofstream file("profiles/" + username + ".txt");
+	std::ofstream file(username + ".txt");
 	if (!file.is_open()) return false;
 
 	file << password << "\n0 0\n";
@@ -34,7 +34,7 @@ bool isUserCreated(const std::string& username, const std::string& password)
 
 bool isLoginSuccessful(const std::string& username, const std::string& password)
 {
-	std::ifstream file("profiles/" + username + ".txt");
+	std::ifstream file(username + ".txt");
 	if (!file.is_open()) return false;
 
 	std::string enteredPassword;
@@ -46,7 +46,7 @@ bool isLoginSuccessful(const std::string& username, const std::string& password)
 void loadProfile(const std::string& username, std::string& password, int& totalGames,
 	int& totalWins, std::vector<std::string>& lines)
 {
-	std::ifstream file("profiles/" + username + ".txt");
+	std::ifstream file(username + ".txt");
 	if (!file.is_open()) return;
 
 	std::getline(file, password);
@@ -65,7 +65,7 @@ void loadProfile(const std::string& username, std::string& password, int& totalG
 void saveProfile(const std::string& username, const std::string& password, int totalGames,
 	int totalWins, const std::vector<std::string>& lines)
 {
-	std::ofstream out("profiles/" + username + ".txt");
+	std::ofstream out(username + ".txt");
 
 	out << password << "\n";
 	out << totalGames << " " << totalWins << "\n";
