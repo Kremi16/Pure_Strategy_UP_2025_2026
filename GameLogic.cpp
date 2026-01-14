@@ -22,7 +22,7 @@ void printPlayerHand(const std::vector<int>& hand,const std::string& playerName)
 
     for (size_t i = 0;i < hand.size();i++)
     {
-        std::cout << convertCardsToString(hand[i]) << " ";
+        std::cout << convertCardToString(hand[i]) << " ";
     }
     std::cout << std::endl;
 }
@@ -33,7 +33,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
 
     if (rewardCards.size() == 1)
     {
-        std::cout << "Current reward card: " << convertCardsToString(rewardCards[0]) <<"\n\n";
+        std::cout << "Current reward card: " << convertCardToString(rewardCards[0]) <<"\n\n";
     }
     else
     {
@@ -41,7 +41,7 @@ void printRewardCards(const std::vector<int>& rewardCards)
 
         for (size_t i = 0; i < rewardCards.size(); i++)
         {
-            std::cout << convertCardsToString(rewardCards[i]) << " ";
+            std::cout << convertCardToString(rewardCards[i]) << " ";
         }
         std::cout <<"\n\n";
     }
@@ -49,9 +49,10 @@ void printRewardCards(const std::vector<int>& rewardCards)
 
 int chooseCard(std::vector<int>& hand, const std::string& playerName)
 {
+    constexpr int INVALID_CARD = -1;
+
     std::string choiceString;
     int choice;
-    const int INVALID_CARD = -1;
 
     while (true)
     {
@@ -78,21 +79,21 @@ int chooseCard(std::vector<int>& hand, const std::string& playerName)
     }
 }
 
-void printRoundResult(const std::string& player1Name,const std::string player2Name,const int card1, 
+void printRoundResult(const std::string& player1Name,const std::string& player2Name,const int card1, 
     const int card2,int rewardCount, int winner)
 {
-    const int PLAYER_ONE = 1;
-    const int PLAYER_TWO = 2;
-    const int SINGLE_CARD = 1;
+    constexpr int PLAYER_ONE_WIN = 1;
+    constexpr int PLAYER_TWO_WIN = 2;
+    constexpr int SINGLE_CARD = 1;
 
-    std::cout << player1Name << " played: " << convertCardsToString(card1) << "\n";
-    std::cout << player2Name << " played: " << convertCardsToString(card2) << "\n";
+    std::cout << player1Name << " played: " << convertCardToString(card1) << "\n";
+    std::cout << player2Name << " played: " << convertCardToString(card2) << "\n";
 
-    if (winner == PLAYER_ONE)
+    if (winner == PLAYER_ONE_WIN)
     {
         std::cout << player1Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
-    else if (winner == PLAYER_TWO)
+    else if (winner == PLAYER_TWO_WIN)
     {
         std::cout << player2Name << " wins the reward " << (rewardCount == SINGLE_CARD ? "card" : "cards") << "!\n";
     }
@@ -103,7 +104,7 @@ void printRoundResult(const std::string& player1Name,const std::string player2Na
     std::cout << std::endl;
 }
 
-void setRewardCards(std::vector<int>& src, std::vector<int>& dest) 
+void moveRewardCards(std::vector<int>& src, std::vector<int>& dest) 
 {
     for (size_t i = 0; i < src.size(); i++) 
     {
@@ -123,23 +124,23 @@ void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewar
 int resolveRound(const int card1, const int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won,
     std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished,int& rewardCount)
 {
-    const int PLAYER_ONE_WIN = 1;
-    const int PLAYER_TWO_WIN = 2;
-    const int TIE = 0;
+    constexpr int TIE = 0;
+    constexpr int PLAYER_ONE = 1;
+    constexpr int PLAYER_TWO = 2;
 
     rewardCount = currentRewardCards.size();
 
     if (card1 > card2)
     {
-        setRewardCards(currentRewardCards, player1Won);
+        moveRewardCards(currentRewardCards, player1Won);
         roundFinished = true;
-        return PLAYER_ONE_WIN;
+        return PLAYER_ONE;
     }
     else if (card2 > card1)
     {
-        setRewardCards(currentRewardCards, player2Won);
+        moveRewardCards(currentRewardCards, player2Won);
         roundFinished = true;
-        return PLAYER_TWO_WIN;
+        return PLAYER_TWO;
     }
     else
     {

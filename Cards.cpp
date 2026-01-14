@@ -28,7 +28,7 @@ std::string numberToString(int number)
     return result;
 }
 
-std::string convertCardsToString(int card)
+std::string convertCardToString(int card)
 {
     if (card == 1) return "A";
     if (card == 11) return "J";
@@ -63,9 +63,9 @@ int stringToNumber(const std::string& s)
 
 int parseCardInput(const std::string& card)
 {
-    const int MIN_NUM_CARD = 2;
-    const int MAX_NUM_CARD = 10;
-    const int INVALID_CARD = -1;
+    constexpr int MIN_NUM_CARD = 2;
+    constexpr int MAX_NUM_CARD = 10;
+    constexpr int INVALID_CARD = -1;
 
     if (card == "A") return 1;
     if (card == "J") return 11;

@@ -16,14 +16,14 @@
 #include "Menu.h"
 #include "UserProfiles.h"
 
-int showMenu()
+std::string showMenu()
 {
     std::cout << "1. Register new user\n";
     std::cout << "2. Login\n";
     std::cout << "3. Exit\n\n";
-    std::cout << "Choose an option: ";
+    std::cout << "Choose an option (1,2 or 3): ";
 
-    int choice;
+    std::string choice;
     std::cin >> choice;
 
     return choice;
@@ -76,13 +76,13 @@ std::string login()
 
 std::string showMainMenu()
 {
-    const int EXIT = 3;
-    const int REGISTRATION = 1;
-    const int LOGIN = 2;
+    const std::string EXIT = "3";
+    const std::string REGISTRATION = "1";
+    const std::string LOGIN = "2";
 
     while (true)
     {
-        int choice = showMenu();
+        std::string choice = showMenu();
 
         if (choice == EXIT) return "";
 
@@ -100,4 +100,21 @@ std::string showMainMenu()
             std::cout << "Invalid choice! Try again.\n\n";
         }
     }
+}
+
+void loginTwoPlayers(std::string& player1, std::string& player2)
+{
+    std::cout << "--- Welcome to the card game Pure Strategy ---" << "\n\n";
+
+    std::cout << "First player login:\n";
+    player1 = showMainMenu();
+    if (player1.empty()) return;
+
+    std::cout << "Second player login:\n";
+    player2 = showMainMenu();
+    if (player2.empty()) return;
+
+    std::cout << std::endl;
+
+    std::cout << "\nLet the game begin!\n\n";
 }

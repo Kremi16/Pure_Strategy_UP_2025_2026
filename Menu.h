@@ -16,10 +16,12 @@
 #pragma once
 #include <string>
 
-int showMenu();
+std::string showMenu();
 
 void registerUser();
 
 std::string login();
 
 std::string showMainMenu();
+
+void loginTwoPlayers(std::string& player1, std::string& player2);

@@ -29,10 +29,10 @@ void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewar
 int resolveRound(const int card1, const int card2, std::vector<int>& currentRewardCards,std::vector<int>& player1Won, 
     std::vector<int>& player2Won,std::vector<int>& rewardDeck, bool& roundFinished, int& rewardCount);
 
-void printRoundResult(const std::string& player1Name, const std::string player2Name, 
+void printRoundResult(const std::string& player1Name, const std::string& player2Name, 
     const int card1, const int card2, int rewardCount, int winner);
 
-void setRewardCards(std::vector<int>& src, std::vector<int>& dest);
+void moveRewardCards(std::vector<int>& src, std::vector<int>& dest);
 
 void playSingleChoice(std::vector<int>& player1Hand, std::vector<int>& player2Hand,
     const std::string& player1Name, const std::string& player2Name,

@@ -92,9 +92,9 @@ void updateStatistics(const std::string& username, bool won)
 
 void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins)
 {
-	const int FIELD_OPPONENT = 0;
-	const int FIELD_GAMES = 1;
-	const int FIELD_WINS = 2;
+	constexpr int FIELD_OPPONENT = 0;
+	constexpr int FIELD_GAMES = 1;
+	constexpr int FIELD_WINS = 2;
 
 	opponent.clear();
 	games = 0;

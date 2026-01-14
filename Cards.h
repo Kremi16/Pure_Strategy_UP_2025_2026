@@ -20,7 +20,7 @@
 
 std::string numberToString(int number);
 
-std::string convertCardsToString(int card);
+std::string convertCardToString(int card);
 
 bool isNumberString(const std::string& s);
 

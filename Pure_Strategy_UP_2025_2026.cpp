@@ -23,18 +23,9 @@ int main()
 {
 	std::srand(std::time(0));
 
-	std::cout << "--- Welcome to the card game Pure Strategy ---" << "\n\n";
+    std::string player1, player2;
 
-    std::cout << "First player login:\n";
-    std::string player1 = showMainMenu();
-    if (player1.empty()) return 0;
-
-    std::cout << "Second player login:\n";
-    std::string player2 = showMainMenu();
-    if (player2.empty()) return 0;
-    std::cout << std::endl;
-
-    std::cout << "\nLet the game begin!\n\n";
+    loginTwoPlayers(player1, player2);
 
     std::vector<int> player1Hand, player2Hand, rewardDeck;
     std::vector<int> player1Won, player2Won;
