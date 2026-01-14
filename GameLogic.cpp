@@ -46,6 +46,24 @@ void printRewardCards(const std::vector<int>& rewardCards)
     }
 }
 
+void printWonCards(const std::vector<int>& wonCards, const std::string& playerName)
+{
+    std::cout << playerName << "'s won cards: ";
+
+    if (wonCards.empty())
+    {
+        std::cout << "none";
+    }
+    else
+    {
+        for (size_t i = 0; i < wonCards.size(); i++)
+        {
+            std::cout << convertCardToString(wonCards[i]) << " ";
+        }
+    }
+    std::cout << std::endl;
+}
+
 int chooseCard(std::vector<int>& hand, const std::string& playerName)
 {
     std::string choiceString;
@@ -151,9 +169,11 @@ void playSingleChoice(std::vector<int>& player1Hand,std::vector<int>& player2Han
     printRewardCards(currentRewardCards);
 
     printPlayerHand(player1Hand, player1Name);
+    printWonCards(player1Won, player1Name);
     int card1 = chooseCard(player1Hand, player1Name);
 
     printPlayerHand(player2Hand, player2Name);
+    printWonCards(player2Won, player2Name);
     int card2 = chooseCard(player2Hand, player2Name);
 
     int rewardCount = 0;

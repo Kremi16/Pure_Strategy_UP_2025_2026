@@ -28,6 +28,8 @@ void printPlayerHand(const std::vector<int>& hand, const std::string& playerName
 
 void printRewardCards(const std::vector<int>& rewardCards);
 
+void printWonCards(const std::vector<int>& wonCards, const std::string& playerName);
+
 int chooseCard(std::vector<int>& hand, const std::string& playerName);
 
 void takeRewardCard(std::vector<int>& rewardDeck, std::vector<int>& currentRewardCards);
