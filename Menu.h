@@ -29,4 +29,4 @@ std::string login();
 
 std::string showMainMenu();
 
-void loginTwoPlayers(std::string& player1, std::string& player2);
+bool loginTwoPlayers(std::string& player1, std::string& player2);

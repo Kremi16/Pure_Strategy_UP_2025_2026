@@ -23,7 +23,7 @@ std::string showMenu()
     std::cout << "Choose an option (1,2 or 3): ";
 
     std::string choice;
-    std::cin >> choice;
+    std::getline(std::cin, choice);
 
     return choice;
 }
@@ -33,7 +33,13 @@ void registerUser()
     std::string username, password;
 
     std::cout << "Enter new username: ";
-    std::cin >> username;
+    std::getline(std::cin, username);
+
+    if (!isValidUsernameOrPassword(username))
+    {
+        std::cout << "Invalid username! Try again.\n\n";
+        return;
+    }
 
     if (isUserExists(username))
     {
@@ -42,7 +48,13 @@ void registerUser()
     }
 
     std::cout << "Enter password: ";
-    std::cin >> password;
+    std::getline(std::cin, password);
+
+    if (!isValidUsernameOrPassword(password))
+    {
+        std::cout << "Invalid password! Try again.\n\n";
+        return;
+    }
 
     if (!isUserCreated(username, password))
     {
@@ -59,9 +71,22 @@ std::string login()
     std::string username, password;
 
     std::cout << "Enter username: ";
-    std::cin >> username;
+    std::getline(std::cin, username);
+
+    if (!isValidUsernameOrPassword(username))
+    {
+        std::cout << "Invalid username! Try again.\n\n";
+        return "";
+    }
+
     std::cout << "Enter password: ";
-    std::cin >> password;
+    std::getline(std::cin, password);
+
+    if (!isValidUsernameOrPassword(password))
+    {
+        std::cout << "Invalid password! Try again.\n\n";
+        return "";
+    }
 
     if (isLoginSuccessful(username, password))
     {
@@ -69,7 +94,7 @@ std::string login()
         return username;
     }
 
-    std::cout << "Invalid username or password! Try again.\n\n";
+    std::cout << "Login is not successful. Wrong username or password!\n\n";
     return "";
 }
 
@@ -97,19 +122,20 @@ std::string showMainMenu()
     }
 }
 
-void loginTwoPlayers(std::string& player1, std::string& player2)
+bool loginTwoPlayers(std::string& player1, std::string& player2)
 {
     std::cout << "--- Welcome to the card game Pure Strategy ---" << "\n\n";
 
     std::cout << "First player login:\n";
     player1 = showMainMenu();
-    if (player1.empty()) return;
+    if (player1.empty()) return false;
 
     std::cout << "Second player login:\n";
     player2 = showMainMenu();
-    if (player2.empty()) return;
+    if (player2.empty()) return false;
 
     std::cout << std::endl;
 
     std::cout << "\nLet the game begin!\n\n";
+    return true;
 }

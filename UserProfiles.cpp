@@ -21,8 +21,25 @@ bool isUserExists(const std::string& username)
 	return file.good();
 }
 
+bool isValidUsernameOrPassword(const std::string& input)
+{
+	if (input.empty()) return false;
+
+	for (size_t i = 0; i < input.size(); i++)
+	{
+		if (input[i] < FIRST_PRINTABLE_ASCII || input[i] > LAST_PRINTABLE_ASCII) return false;
+
+		if (input[i] == ' ') return false;
+	}
+
+	return true;
+}
+
 bool isUserCreated(const std::string& username, const std::string& password)
 {
+	if (!isValidUsernameOrPassword(username)) return false;
+	if (!isValidUsernameOrPassword(password)) return false;
+
 	if (isUserExists(username)) return false;
 
 	std::ofstream file(username + ".txt");
@@ -34,6 +51,9 @@ bool isUserCreated(const std::string& username, const std::string& password)
 
 bool isLoginSuccessful(const std::string& username, const std::string& password)
 {
+	if (!isValidUsernameOrPassword(username)) return false;
+	if (!isValidUsernameOrPassword(password)) return false;
+
 	std::ifstream file(username + ".txt");
 	if (!file.is_open()) return false;
 
@@ -48,24 +68,35 @@ void loadProfile(const std::string& username, std::string& password, int& totalG
 {
 	std::ifstream file(username + ".txt");
 	if (!file.is_open()) return;
+	if (!file.good()) return;
 
-	std::getline(file, password);
-	file >> totalGames >> totalWins;
+	std::string filePassword;
+	int fileTotalGames, fileTotalWins;
+
+	if (!std::getline(file, filePassword)) return;
+	if (!(file >> fileTotalGames >> fileTotalWins)) return;
 	file.ignore();
 
 	lines.clear();
+	std::vector<std::string> fileLines;
 	std::string line;
 
 	while (std::getline(file, line))
 	{
-		lines.push_back(line);
+		fileLines.push_back(line);
 	}
+
+	password = filePassword;
+	totalGames = fileTotalGames;
+	totalWins = fileTotalWins;
+	lines = fileLines;
 }
 
 void saveProfile(const std::string& username, const std::string& password, int totalGames,
 	int totalWins, const std::vector<std::string>& lines)
 {
 	std::ofstream out(username + ".txt");
+	if (!out.is_open()) return;
 
 	out << password << "\n";
 	out << totalGames << " " << totalWins << "\n";
@@ -90,24 +121,28 @@ void updateStatistics(const std::string& username, bool won)
 	saveProfile(username, password, totalGames, totalWins, lines);
 }
 
-void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins)
+bool parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins)
 {
 	opponent.clear();
 	games = 0;
 	wins = 0;
     int field = FIELD_OPPONENT;
 	int number = 0;
+	int fieldsCount = 1;
 
-	for (size_t i = 0; i < line.length(); i++) 
-	{
+	for (size_t i = 0; i < line.length(); i++) {
 		if (line[i] == ' ') {
+            if ((i == 0) || (line[i-1]==' ')) return false;
+
 			if (field == FIELD_OPPONENT) {
 				field = FIELD_GAMES;
+				fieldsCount++;
 			}
 			else if (field == FIELD_GAMES) {
 				games = number;
 				number = 0;
 				field = FIELD_WINS;
+				fieldsCount++;
 			}
 		}
 		else {
@@ -115,12 +150,17 @@ void parseOpponentLine(const std::string& line, std::string& opponent, int& game
 				opponent += line[i];
 			}
 			else {
+				if (line[i] < '0' || line[i] > '9') return false;
 				number = number * 10 + (line[i] - '0');
 			}
 		}
 	}
 
-	if (field == FIELD_WINS) wins = number;
+	if (field == FIELD_WINS){
+		wins = number;
+	}
+
+	return (fieldsCount == OPPONENT_FIELDS_COUNT);
 }
 
 void updateOpponentStatistics(const std::string& username, const std::string& opponent, bool won)
@@ -139,7 +179,7 @@ void updateOpponentStatistics(const std::string& username, const std::string& op
 		std::string opponentName;
 		int gamesPlayed, gamesWon;
 
-		parseOpponentLine(lines[i], opponentName, gamesPlayed, gamesWon);
+		if(!parseOpponentLine(lines[i], opponentName, gamesPlayed, gamesWon)) continue;
 
 		if (opponentName == opponent)
 		{
@@ -159,6 +199,27 @@ void updateOpponentStatistics(const std::string& username, const std::string& op
 	saveProfile(username, password, totalGames, totalWins, lines);
 }
 
+std::string formatPercentage(double value)
+{
+	int rounded = (int)(value * 100 + 0.5);
+	int whole = rounded / 100;
+	int fraction = rounded % 100;
+
+	if (fraction == 0)
+	{
+		return numberToString(whole) + "%";
+	}
+
+	std::string result = numberToString(whole) + ".";
+
+	if (fraction < 10) result += "0";
+
+	result += numberToString(fraction);
+	result += "%";
+
+	return result;
+}
+
 void showUserStatistics(const std::string& username)
 {
 	std::string password;
@@ -168,8 +229,10 @@ void showUserStatistics(const std::string& username)
 	loadProfile(username, password, totalGames, totalWins, opponents);
 
 	std::cout << "Total games played: " << totalGames << "\n";
-	std::cout << "Total games won: " << totalWins << " ("
-		<< (totalGames ? (totalWins * 100.0 / totalGames) : 0) << "%)\n";
+
+	double totalWinRate = (totalGames ? (totalWins * 100.0 / totalGames) : 0);
+
+	std::cout << "Total games won: " << totalWins << " (" << formatPercentage(totalWinRate) << ")\n";
 
 	std::cout << "Games against other players:\n";
 
@@ -178,21 +241,24 @@ void showUserStatistics(const std::string& username)
 
 	for (size_t i = 0; i < opponents.size(); i++)
 	{
-		parseOpponentLine(opponents[i], opponent, gamesPlayed, gamesWon);
+		if(!parseOpponentLine(opponents[i], opponent, gamesPlayed, gamesWon)) continue;
+
+		double winRate = (gamesPlayed ? (gamesWon * 100.0 / gamesPlayed) : 0);
 
 		std::cout << opponent << ": " << gamesPlayed << " games played ("
-			<< gamesWon << "/" << (gamesPlayed ? (gamesWon * 100.0 / gamesPlayed) : 0) << "% wins)\n";
+			<< gamesWon << "/" << formatPercentage(winRate)<< " wins)\n";
+		
 	}
 }
 
-	void displayEndGameStatistics(const std::string & player1, const std::string & player2)
-	{
-		std::cout << "\n--- Player Statistics ---\n";
-		std::cout << player1 << ":\n";
-		showUserStatistics(player1);
+void displayEndGameStatistics(const std::string & player1, const std::string & player2)
+{
+	std::cout << "\n--- Player Statistics ---\n";
+	std::cout << player1 << ":\n";
+	showUserStatistics(player1);
 
-		std::cout << "\n" << player2 << ":\n";
-		showUserStatistics(player2);
+	std::cout << "\n" << player2 << ":\n";
+	showUserStatistics(player2);
 
-		std::cout << "\nThank you for playing Pure Strategy!\n";
-	}
+	std::cout << "\nThank you for playing Pure Strategy!\n";
+}

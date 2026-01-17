@@ -152,11 +152,6 @@ int resolveRound(const int card1, const int card2, std::vector<int>& currentRewa
     else
     {
         takeRewardCard(rewardDeck, currentRewardCards);
-        
-        if (rewardDeck.empty())
-        {
-            roundFinished = true;
-        }
         return TIE;
     }
 }
@@ -192,7 +187,7 @@ void playRound(std::vector<int>& player1Hand,std::vector<int>& player2Hand,
 
     bool roundFinished = false;
 
-    while (!roundFinished)
+    while (!roundFinished && !player1Hand.empty() && !player2Hand.empty())
     {
         playSingleChoice(player1Hand, player2Hand, player1Name, player2Name, currentRewardCards,
             player1Won,player2Won, rewardDeck, roundFinished);

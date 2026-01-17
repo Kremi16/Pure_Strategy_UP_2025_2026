@@ -1,4 +1,4 @@
-﻿/**
+/**
 *
 * Solution to course project # 01
 * Introduction to programming course
@@ -9,22 +9,15 @@
 * @idnumber 9MI0600605
 * @compiler VC
 *
-* Main program file for the console implementation of the card game "Pure strategy".
+* Header file with implementation of the main game flow logic.
 *
 */
 
-#include <ctime>
+#pragma once
 #include "Cards.h"
 #include "GameLogic.h"
 #include "GameSession.h"
+#include "UserProfiles.h"
 #include "Menu.h"
-#include "GameRunner.h"
 
-int main()
-{
-	std::srand(std::time(0));
-
-	runTheGame();
-
-	return 0;
-}
+int runTheGame();

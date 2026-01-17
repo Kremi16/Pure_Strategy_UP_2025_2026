@@ -20,11 +20,17 @@
 #include <vector>
 #include "Cards.h"
 
+constexpr int FIRST_PRINTABLE_ASCII = 32;
+constexpr int LAST_PRINTABLE_ASCII = 126;
 constexpr int FIELD_OPPONENT = 0;
 constexpr int FIELD_GAMES = 1;
 constexpr int FIELD_WINS = 2;
+constexpr int OPPONENT_FIELDS_COUNT = 3;
+
 
 bool isUserExists(const std::string& username);
+
+bool isValidUsernameOrPassword(const std::string& input);
 
 bool isUserCreated(const std::string& username, const std::string& password);
 
@@ -38,9 +44,11 @@ void saveProfile(const std::string& username, const std::string& password, int t
 
 void updateStatistics(const std::string& username, bool won);
 
-void parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins);
+bool parseOpponentLine(const std::string& line, std::string& opponent, int& games, int& wins);
 
 void updateOpponentStatistics(const std::string& username, const std::string& opponent, bool won);
+
+std::string formatPercentage(double value);
 
 void showUserStatistics(const std::string& username);
 
